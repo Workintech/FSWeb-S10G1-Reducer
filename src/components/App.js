@@ -1,7 +1,7 @@
 import React from 'react';
 import { useReducer } from 'react';
 import reducer,{initialState} from "../reducers/index";
-import { addOne, applyNumber, changeOperation,clearDisplay,memoryOperations } from '../actions';
+import { addOne, applyNumber, changeOperation,clearDisplay,memoryOperations, numberUp, total } from '../actions';
 
 import './App.css';
 
@@ -16,7 +16,7 @@ function App() {
   const handleApplyNumber = (sayi) => {
     dispatch(applyNumber(sayi));
   }
-  
+  console.log(state);
 
   return (
     <div className="App">
@@ -28,7 +28,7 @@ function App() {
         <div className="col-md-12 d-flex justify-content-center">
           <form name="Cal">
             
-            <TotalDisplay value={state["total"]}/>
+            <TotalDisplay value={state.kontrol ? state["x"] : state["total"]}/>
             <div className="row details">
               <span id="operation"><b>Operation:</b> {state["operation"]}</span>
               <span id="memory"><b>Memory:</b> {state.memory}</span>
@@ -46,7 +46,7 @@ function App() {
                 <div className="row">
                   {
                     [1,2,3].map(j => (
-                      <CalcButton key ={j + 3*i}onClick={()=>{handleApplyNumber(j + 3*i)}} value={j + 3*i}/>
+                      <CalcButton key ={j + 3*i}onClick={()=>{dispatch(numberUp(j + 3*i))}} value={j + 3*i}/>
                     ))
                   }
                 </div>
@@ -64,6 +64,7 @@ function App() {
 
             <div className="row ce_button">
               <CalcButton onClick={()=>dispatch(clearDisplay())} value={"CE"}/>
+              <CalcButton onClick={()=>dispatch(total())} value={"="}/>
             </div>
 
           </form>
